@@ -7,13 +7,11 @@
 
 import Foundation
 
-// Главная модель ответа
 struct DisneyAPIResponse: Codable {
     let info: PageInfo
     let data: [DisneyCharacter]
 }
 
-// Информация о страницах
 struct PageInfo: Codable {
     let count: Int
     let totalPages: Int
@@ -21,7 +19,6 @@ struct PageInfo: Codable {
     let nextPage: String?
 }
 
-// Модель данных для персонажа
 struct DisneyCharacter: Codable {
     let id: Int
     let films: [String]?
@@ -35,6 +32,11 @@ struct DisneyCharacter: Codable {
         case id = "_id"
         case films, shortFilms, tvShows
         case sourceUrl, name, imageUrl
+    }
+    
+    var getImageUrl: URL? {
+        guard let imageUrl else { return nil }
+        return URL(string: imageUrl)
     }
 }
 
