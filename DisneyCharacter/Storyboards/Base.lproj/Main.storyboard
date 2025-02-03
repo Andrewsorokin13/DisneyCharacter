@@ -110,6 +110,7 @@
                                     <constraint firstAttribute="width" secondItem="EFn-4R-9Va" secondAttribute="height" multiplier="1:1" id="QCp-aO-JW2"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                         <integer key="value" value="16"/>
                                     </userDefinedRuntimeAttribute>
