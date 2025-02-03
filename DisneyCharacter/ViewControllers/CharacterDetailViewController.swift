@@ -67,19 +67,18 @@ class CharacterDetailViewController: UIViewController {
     
     private func loadImageView(with character: DisneyCharacter) {
         guard let url = character.getImageUrl else { return }
-        NetworkManager.shared.fetchImage(from: url) { [weak self] result in
-            guard let self else { return }
-            DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                self.activityIndicator.hidesWhenStopped = true
+        NetworkManager.shared.fetchData(from: url) { result in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                activityIndicator.stopAnimating()
+                activityIndicator.hidesWhenStopped = true
                 switch result {
                 case .success(let imageData):
-                    self.avatarImageView.image = UIImage(data: imageData)
+                    avatarImageView.image = UIImage(data: imageData)
                 case .failure:
-                    self.avatarImageView.image = UIImage(systemName: Constants.defaultImageName)
+                    avatarImageView.image = UIImage(systemName: Constants.defaultImageName)
                 }
             }
-            
         }
     }
 }

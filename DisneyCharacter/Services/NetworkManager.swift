@@ -6,12 +6,14 @@
 //
 
 import Foundation
+import Alamofire
 
 final class NetworkManager {
     
     //MARK: - Private property
     
     private let urlSession = URLSession.shared
+    private let maxRetryCount = 3
     
     //MARK: - Static property
     
@@ -21,35 +23,30 @@ final class NetworkManager {
     
     //MARK: - Public method
     
-    func fetch<T: Codable>(_ type: T.Type, from url: URL, completion: @escaping (Result<T, NetworkError>) -> Void) {
-        urlSession.dataTask(with: url) { data, _, error in
-            guard let data = data else {
-                completion(.failure(.noData))
-                return
-            }
-            do {
-                let dataModel = try JSONDecoder().decode(T.self, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(dataModel))
+    func fetch (from  url: URL, completion: @escaping (Result<DisneyAPIResponse, AFError>) -> Void) {
+        AF.request(url)
+            .validate()
+            .responseJSON { dataResponse in
+                switch dataResponse.result {
+                case .success(let value):
+                    let characters = DisneyAPIResponse.getResponse(from: value)
+                    completion(.success(characters))
+                case .failure(let error):
+                    completion(.failure(error))
                 }
-                
-            } catch {
-                completion(.failure(.decodingError))
             }
-        }.resume()
     }
     
-    
-    func fetchImage(from url: URL, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: url) else {
-                completion(.failure(.noData))
-                return
+    func fetchData(from url: URL, completion: @escaping (Result<Data, AFError>)-> Void) {
+        AF.request(url)
+            .validate()
+            .responseData { dataResponse in
+                switch dataResponse.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
-            DispatchQueue.main.async {
-                completion(.success(imageData))
-            }
-        }
     }
-    
 }

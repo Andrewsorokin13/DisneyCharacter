@@ -35,16 +35,14 @@ class DisneyCharacterCollectionViewController: UICollectionViewController {
     
     private func fetchCharacters() {
         guard let url = Link.characters.url  else { return }
-        networkService.fetch(DisneyAPIResponse.self, from: url) { [weak self] result in
+        networkService.fetch(from: url) { [weak self] result in
             guard let self else { return }
             switch result {
-            case .success(let dataModel):
-                self.disneyCharacters = dataModel.data
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-            case .failure(let error):
-                print("Ошибка загрузки: \(error)")
+            case .success(let value):
+                disneyCharacters = value.data
+                collectionView.reloadData()
+            case .failure(let failure):
+                showAlert(title: "OOPS!", message: failure.localizedDescription)
             }
         }
     }
@@ -57,10 +55,12 @@ extension DisneyCharacterCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifiers.CollectionViewCell.characterCell.identifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: Identifiers.CollectionViewCell.characterCell.identifier,
+            for: indexPath
+        )
         guard let cell = cell as? CharacterCollectionViewCell else { return UICollectionViewCell() }
         cell.configure(with: disneyCharacters[indexPath.item], imageLoader: networkService)
-        cell.backgroundView?.backgroundColor = .systemBlue
         return cell
     }
     
@@ -74,5 +74,17 @@ extension DisneyCharacterCollectionViewController {
               let detailsVC = segue.destination as? CharacterDetailViewController else { return }
         
         detailsVC.character = character
+    }
+}
+
+// MARK: - Alert
+private extension DisneyCharacterCollectionViewController {
+    func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            completion?()
+        }
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
 }

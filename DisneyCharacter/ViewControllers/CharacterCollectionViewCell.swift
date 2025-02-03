@@ -24,7 +24,7 @@ class CharacterCollectionViewCell: UICollectionViewCell {
         activityIndicator.startAnimating()
         
         if let urlString = character.imageUrl, let url = URL(string: urlString) {
-            imageLoader.fetchImage(from: url) { [weak self] result in
+            imageLoader.fetchData(from: url) { [weak self] result in
                 guard let self else { return }
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
@@ -47,9 +47,9 @@ class CharacterCollectionViewCell: UICollectionViewCell {
         characterImageView.layer.cornerRadius = 16
         characterImageView.layer.masksToBounds = true
         characterImageView.layer.shadowColor = UIColor.black.cgColor
-        characterImageView.layer.shadowOpacity = 0.2
-        characterImageView.layer.shadowOffset = CGSize(width: 0, height: 6)
-        characterImageView.layer.shadowRadius = 8
+        characterImageView.layer.shadowOpacity = 0.3
+        characterImageView.layer.shadowOffset = CGSize(width: 0, height: 8)
+        characterImageView.layer.shadowRadius = 10
         
         applyGradientToView()
     }

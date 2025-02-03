@@ -22,9 +22,8 @@ class WebViewControllerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         loadWebPage(url)
-        title = "Web View Page"
+        title = "View Source"
     }
     
     // MARK: - Private method

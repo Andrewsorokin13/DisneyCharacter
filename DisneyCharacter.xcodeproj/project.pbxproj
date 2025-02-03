@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AFE3B9EE2D4E4160002DB8F8 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = AFE3B9ED2D4E4160002DB8F8 /* Alamofire */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		AFE3B8C02D3ECE51002DB8F8 /* DisneyCharacter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DisneyCharacter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFE3B9EE2D4E4160002DB8F8 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = DisneyCharacter;
 			packageProductDependencies = (
+				AFE3B9ED2D4E4160002DB8F8 /* Alamofire */,
 			);
 			productName = DisneyCharacter;
 			productReference = AFE3B8C02D3ECE51002DB8F8 /* DisneyCharacter.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = AFE3B8B72D3ECE51002DB8F8;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AFE3B9EC2D4E4160002DB8F8 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AFE3B8C12D3ECE51002DB8F8 /* Products */;
 			projectDirPath = "";
@@ -343,6 +352,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AFE3B9EC2D4E4160002DB8F8 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AFE3B9ED2D4E4160002DB8F8 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AFE3B9EC2D4E4160002DB8F8 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AFE3B8B82D3ECE51002DB8F8 /* Project object */;
 }

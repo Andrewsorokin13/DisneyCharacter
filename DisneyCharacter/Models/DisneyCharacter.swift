@@ -7,18 +7,6 @@
 
 import Foundation
 
-struct DisneyAPIResponse: Codable {
-    let info: PageInfo
-    let data: [DisneyCharacter]
-}
-
-struct PageInfo: Codable {
-    let count: Int
-    let totalPages: Int
-    let previousPage: String?
-    let nextPage: String?
-}
-
 struct DisneyCharacter: Codable {
     let id: Int
     let films: [String]?
@@ -27,16 +15,35 @@ struct DisneyCharacter: Codable {
     let sourceUrl: String
     let name: String
     let imageUrl: String?
-
-    enum CodingKeys: String, CodingKey {
-        case id = "_id"
-        case films, shortFilms, tvShows
-        case sourceUrl, name, imageUrl
-    }
     
     var getImageUrl: URL? {
         guard let imageUrl else { return nil }
         return URL(string: imageUrl)
+    }
+    
+    init(id: Int, films: [String]?, shortFilms: [String]?, tvShows: [String]?, sourceUrl: String, name: String, imageUrl: String?) {
+        self.id = id
+        self.films = films
+        self.shortFilms = shortFilms
+        self.tvShows = tvShows
+        self.sourceUrl = sourceUrl
+        self.name = name
+        self.imageUrl = imageUrl
+    }
+    
+    init(characterDetails: [String: Any]) {
+        id = characterDetails["_id"] as? Int ?? 0
+        films = characterDetails["films"] as? [String]
+        shortFilms = characterDetails["shortFilms"] as? [String]
+        tvShows = characterDetails["tvShows"] as? [String]
+        sourceUrl = characterDetails["sourceUrl"] as? String ?? ""
+        name = characterDetails["name"] as? String ?? ""
+        imageUrl = characterDetails["imageUrl"] as? String
+    }
+    
+    static func getCharacters(from value: Any) -> [DisneyCharacter] {
+        guard let charactersDetails = value as? [[String: Any]] else { return [] }
+        return charactersDetails.map { DisneyCharacter(characterDetails: $0) }
     }
 }
 
